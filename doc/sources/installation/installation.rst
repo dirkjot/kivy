@@ -157,6 +157,56 @@ also run (as admin, e.g. with sudo)::
 If you want to contribute code (patches, new features) to the Kivy
 code base, please read :ref:`contributing`.
 
+Installing Kivy for Development inside a virtual environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You may want to run an official and a development version of Kivy next
+to each other.  A virtual environment is the official way to deal with
+these situations in Python.  
+
+To set up a Development version inside a virtual environment is easy.
+First, create a virtual environment::
+
+    $ virtualenv kivy-dev
+
+Then, activate the environment, clone kivy, move to the latest stable
+version (1.9.0 as of writing), and start compilation.  See above for
+detailed instructions.  The local clone resides in the ``kivy.git``
+directory.  (The example uses the main Kivy repository.  If you want
+to contribute changes later, you probably want to use your own Github
+fork instead)::
+
+  $  cd kivy-dev
+  $  . bin/activate 
+  $  git clone 	http://github.com/kivy/kivy  kivy.git
+  $  cd kivy.git
+  $  git checkout -b tags/1.9.0
+  $  make
+  $  cd ..
+
+Finally, create a symbolic link so that python invoked in the virtual
+environment will find our new Kivy::
+
+  $ pushd lib/python2.7/site-packages/
+  $ ln -sf ../../../kivy.git/kivy .
+  $ popd
+
+Finally, test the new installation::
+
+  $ python
+  >>> import kivy
+
+You should see that the Kivy version imported matches the version you
+checked out above.  If you used ``master`` above, you Kivy version
+will end in ``-dev`` to show that it is an unstable, development
+version.
+
+You do not have to do ``python setup.py install`` with this method.
+If you activate the virtual environment and then start Python, you
+will always get the last checked-out version of Kivy, which may
+include any local changes you have made.
+
+
 Running the test suite
 ~~~~~~~~~~~~~~~~~~~~~~
 
